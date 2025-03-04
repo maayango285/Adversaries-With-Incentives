@@ -40,7 +40,6 @@ def perturb_iterative(xvar, yvar, y2, predict, nb_iter, eps, eps_iter, loss_fn, 
 
     predict.eval()
 
-    fooled = torch.zeros_like(yvar)
     sum_grad = torch.zeros_like(yvar).float()
 
     if delta_init is not None:
@@ -57,15 +56,6 @@ def perturb_iterative(xvar, yvar, y2, predict, nb_iter, eps, eps_iter, loss_fn, 
     delta.requires_grad_()
     for ii in range(nb_iter):
         outputs = predict(xvar + delta)
-        if debug: 
-            if targeted:
-                if multi_targets_mask is not None:
-                    fooled[multi_targets_mask[range(len(multi_targets_mask)), outputs.argmax(-1)] != 0] = 1 # fooled if classified as one of the class's targets
-                else:
-                    fooled[outputs.argmax(-1) == yvar] = 1  # fooled if classified as target
-            else:
-                fooled[outputs.argmax(-1) != yvar] = 1  # fooled if misclassified
-            print(f'nb_iter: {ii} num fooled: {fooled.sum()}')
         
         if multi_targets_mask is not None: # loss is CE source \ source's targets
             assert targeted, 'expected a targeted attack'
@@ -107,8 +97,9 @@ def perturb_iterative(xvar, yvar, y2, predict, nb_iter, eps, eps_iter, loss_fn, 
             raise NotImplementedError(error)
         delta.grad.data.zero_()
 
-    num_zero_grad = len(sum_grad[sum_grad == 0])
-    print(f'num images with zero grad: {num_zero_grad}')
+    if debug:
+        num_zero_grad = len(sum_grad[sum_grad == 0])
+        print(f'num images with zero grad: {num_zero_grad}')
     x_adv = clamp(xvar + delta, clip_min, clip_max)
     r_adv = x_adv - xvar
     return x_adv, r_adv
