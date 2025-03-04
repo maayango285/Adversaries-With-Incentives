@@ -1,52 +1,6 @@
 import torch
 import numpy
 
-# # Hand crafted "semantic" strategy for Traffic Sign dataset
-# strat1 = {
-#     0: 8,
-#     1: 8,
-#     2: 8,
-#     3: 8,
-#     4: 8,
-#     5: 8,
-#     6: 8,
-#     7: 8,
-#     8: 0,
-#     9: 10,
-#     10: 9,
-#     11: 11,
-#     12: 13,
-#     13: 12,
-#     14: 7,
-#     15: 16,
-#     16: 15,
-#     17: 13,
-#     18: 18,
-#     19: 20,
-#     20: 19,
-#     21: 21,
-#     22: 22,
-#     23: 23,
-#     24: 24,
-#     25: 25,
-#     26: 26,
-#     27: 27,
-#     28: 8,
-#     29: 29,
-#     30: 30,
-#     31: 31,
-#     32: 32,
-#     33: 34,
-#     34: 33,
-#     35: 35,
-#     36: 37,
-#     37: 36,
-#     38: 39,
-#     39: 38,
-#     40: 40,
-#     41: 41,
-#     42: 42
-# }
 
 # int to strategy name dict
 training_strategy_dict = {
@@ -57,11 +11,6 @@ training_strategy_dict = {
     4: 'multi_targets',
     5: 'noisy_subset_oracle'
 }
-
-# # dictionary for predefined strategies
-# strat_dict = {
-#     'strat1': strat1
-# }
 
 
 # Generate column strategy dict
